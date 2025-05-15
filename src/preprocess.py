@@ -1,12 +1,27 @@
 import spacy
+import re
 
-nlp = spacy.load("en_core_web_sm")
+def tokenizer(text):
+    nlp = spacy.load("en_core_web_sm", disable=["ner", "parser"])
 
-def tokenizer(data):
-    doc = nlp(data)
+    # Remove non-ASCII
+    text = re.sub(r'[^\x00-\x7F]+', ' ', text)
+    text = re.sub(r'\s+', ' ', text)
 
+    doc = nlp(text)
+
+    tokens = []
     for token in doc:
-        print(token, "| ", token.pos_, "| ", token.lemma_)
+        if not token.is_stop and not token.is_punct and token.is_alpha:
+            tokens.append(token)
 
+    return tokens
 
-tokenizer("I'm very cute, but my girlfriend didn't want to be with me")
+def process_dict(doc_dict):
+    processed = {}
+
+    for name, text in doc_dict.items():
+        tokenized_text = tokenizer(text)
+        processed[name] = tokenized_text
+
+    return processed
