@@ -19,21 +19,3 @@ def extract_text_directory(directory_path):
             pdf_texts["filename"] = text
 
     return pdf_texts
-
-def clean_text(text):
-    # Remove lines that look like page numbers
-    text = re.sub(r'\n\s*\d+\s*\n', '\n', text)
-
-    # Remove lines that repeat too often (headers/footers)
-    lines = text.split('\n')
-    line_counts = {}
-    for line in lines:
-        line = line.strip()
-        if line:
-            line_counts[line] = line_counts.get(line, 0) + 1
-
-    cleaned_lines = [line for line in lines if line_counts.get(line.strip(), 0) <= 2]
-
-    cleaned_text = "\n".join(cleaned_lines)
-
-    return cleaned_text.strip()

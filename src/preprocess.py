@@ -1,27 +1,29 @@
 import spacy
 import re
+from sklearn.datasets import fetch_20newsgroups
 
-def tokenizer(text):
+def clean_text(text):
     nlp = spacy.load("en_core_web_sm", disable=["ner", "parser"])
 
-    # Remove non-ASCII
-    text = re.sub(r'[^\x00-\x7F]+', ' ', text)
-    text = re.sub(r'\s+', ' ', text)
+    # Normalize whitespace
+    text = re.sub(r"\s+", " ", text)
 
-    doc = nlp(text)
+    # Remove newline chars
+    text = re.sub(r"\n", " ", text)
 
-    tokens = []
-    for token in doc:
-        if not token.is_stop and not token.is_punct and token.is_alpha:
-            tokens.append(token)
+    # Remove page numbers
+    text = re.sub(r"Page \d+", "", text)
 
-    return tokens
+    doc = nlp(text.lower())
+    # Lemmatize and remove stop words and non-alpha tokens
+    tokens = [token.lemma_ for token in doc if not token.is_stop and token.is_alpha]
+    return " ".join(tokens)
 
-def process_dict(doc_dict):
-    processed = {}
+    # Load and clean the 20 Newsgroups dataset
 
-    for name, text in doc_dict.items():
-        tokenized_text = tokenizer(text)
-        processed[name] = tokenized_text
 
-    return processed
+def load_and_clean_data():
+    newsgroups = fetch_20newsgroups(subset='all', remove=('headers', 'footers', 'quotes'))
+    cleaned = [clean_text(text) for text in newsgroups.data]
+
+    return cleaned, newsgroups.target, newsgroups.target_names
