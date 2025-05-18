@@ -12,6 +12,8 @@ def tokenizer(text):
 
     return " ".join(tokens)
 def clean_text(infile_path, outfile_path):
+    infile_path = input_path
+    outfile_path = output_path
     index = 0
     with open(infile_path, "r", encoding="utf-8") as infile, open(outfile_path, "w", encoding="utf-8") as outfile:
         data = json.load(infile)
