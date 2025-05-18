@@ -1,29 +1,26 @@
 import spacy
-import re
-from sklearn.datasets import fetch_20newsgroups
+import json
 
-def clean_text(text):
-    nlp = spacy.load("en_core_web_sm", disable=["ner", "parser"])
+nlp = spacy.load("en_core_web_sm", disable=["ner", "parser"])
+input_path = "/home/lucca-coelho/nlp-pipeline/data/pdf_dataset.json"
+output_path = "/home/lucca-coelho/nlp-pipeline/data/processed_data.json"
 
-    # Normalize whitespace
-    text = re.sub(r"\s+", " ", text)
+def tokenizer(text):
+    doc = nlp(text.lower().strip())
 
-    # Remove newline chars
-    text = re.sub(r"\n", " ", text)
-
-    # Remove page numbers
-    text = re.sub(r"Page \d+", "", text)
-
-    doc = nlp(text.lower())
-    # Lemmatize and remove stop words and non-alpha tokens
     tokens = [token.lemma_ for token in doc if not token.is_stop and token.is_alpha]
+
     return " ".join(tokens)
+def clean_text(infile_path, outfile_path):
+    index = 0
+    with open(infile_path, "r", encoding="utf-8") as infile, open(outfile_path, "w", encoding="utf-8") as outfile:
+        data = json.load(infile)
+        while index < len(data):
+            cleaned_text = tokenizer(data[index]["text"])
 
-    # Load and clean the 20 Newsgroups dataset
+            data[index]["text"] = cleaned_text
 
+            json.dump(data, outfile)
+            index += 1
 
-def load_and_clean_data():
-    newsgroups = fetch_20newsgroups(subset='all', remove=('headers', 'footers', 'quotes'))
-    cleaned = [clean_text(text) for text in newsgroups.data]
-
-    return cleaned, newsgroups.target, newsgroups.target_names
+clean_text(input_path, output_path)
