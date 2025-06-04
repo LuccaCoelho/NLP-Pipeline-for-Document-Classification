@@ -19,7 +19,7 @@ This project presents a comprehensive Natural Language Processing (NLP) pipeline
    ´´
 2. ***Create and activate a virtual environment (optional but recommended):***
 
-  ```bash
-  python -m venv venv
-  source venv/bin/activate  # On Windows: venv\Scripts\activate
-  ´´
+     ```bash
+     python -m venv venv
+     source venv/bin/activate  # On Windows: venv\Scripts\activate
+     ´´
