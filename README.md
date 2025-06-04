@@ -27,3 +27,11 @@ This project presents a comprehensive Natural Language Processing (NLP) pipeline
 
      ```bash
      pip install -r requirements.txt
+## Visualization
+
+graph TD
+    A[Raw Data] --> B[Data Preprocessing]
+    B --> C[Feature Extraction]
+    C --> D[Model Training]
+    D --> E[Model Evaluation]
+    E --> F[Deployment]
