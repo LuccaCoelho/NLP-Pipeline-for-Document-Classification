@@ -16,10 +16,10 @@ This project presents a comprehensive Natural Language Processing (NLP) pipeline
    ```bash
    git clone https://github.com/LuccaCoelho/NLP-Pipeline-for-Document-Classification.git
    cd NLP-Pipeline-for-Document-Classification
-   ´´
+   
 2. ***Create and activate a virtual environment (optional but recommended):***
 
      ```bash
      python -m venv venv
      source venv/bin/activate  # On Windows: venv\Scripts\activate
-     ´´
+     
