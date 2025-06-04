@@ -23,3 +23,7 @@ This project presents a comprehensive Natural Language Processing (NLP) pipeline
      python -m venv venv
      source venv/bin/activate  # On Windows: venv\Scripts\activate
      
+3. ***Install the required dependencies:***
+
+     ```bash
+     pip install -r requirements.txt
